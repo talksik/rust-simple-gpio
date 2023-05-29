@@ -34,10 +34,7 @@ fn main() -> Result<(), rppal::gpio::Error> {
     let gpio = Gpio::new()?;
     let pin = gpio.get(BUTTON_PIN)?.into_input_pullup();
 
-    // spawn a thread to read the pin
-    thread::spawn(move || {
-        read_loop(&pin);
-    });
+    read_loop(&pin);
 
     Ok(())
 }
