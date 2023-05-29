@@ -23,8 +23,6 @@ fn read_loop(pin: &rppal::gpio::InputPin) {
         if is_button_pressed(pin) {
             println!("Button is pressed mate!");
         }
-
-        thread::sleep(Duration::from_secs(1));
     }
 }
 
