@@ -1,0 +1,10 @@
+
+version: '3'
+
+tasks:
+  crosscompile:
+    env:
+      - CROSS_CONTAINER_OPTS: "--platform linux/amd64"
+    cmds:
+      - cross build --target arm-unknown-linux-gnueabi
+

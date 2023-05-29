@@ -1,6 +1,6 @@
-use std::thread;
+use std::{thread, time::Duration};
 
-use rppal::gpio::{Gpio, Level, Pin};
+use rppal::gpio::{Gpio, Level};
 
 const BUTTON_PIN: u8 = 17;
 
@@ -13,12 +13,8 @@ fn is_button_pressed(pin: &rppal::gpio::InputPin) -> bool {
 
 fn is_button_pressed2(pin: &rppal::gpio::InputPin) -> bool {
     match pin.read() {
-        Ok(Level::Low) => true,
-        Ok(Level::High) => false,
-        Err(_) => {
-            println!("Error reading pin");
-            false
-        },
+        Level::Low => true,
+        Level::High => false,
     }
 }
 
@@ -39,7 +35,7 @@ fn main() -> Result<(), rppal::gpio::Error> {
     let pin = gpio.get(BUTTON_PIN)?.into_input_pullup();
 
     // spawn a thread to read the pin
-    thread::spawn(|| {
+    thread::spawn(move || {
         read_loop(&pin);
     });
 
