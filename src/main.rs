@@ -1,6 +1,6 @@
-use std::{thread, time::Duration};
+use std::error::Error;
 
-use rppal::gpio::{Gpio, Level};
+use rppal::gpio::Gpio;
 
 const BUTTON_PIN: u8 = 17;
 
@@ -11,13 +11,6 @@ fn is_button_pressed(pin: &rppal::gpio::InputPin) -> bool {
     pin.is_low()
 }
 
-fn is_button_pressed2(pin: &rppal::gpio::InputPin) -> bool {
-    match pin.read() {
-        Level::Low => true,
-        Level::High => false,
-    }
-}
-
 fn read_loop(pin: &rppal::gpio::InputPin) {
     loop {
         if is_button_pressed(pin) {
@@ -26,7 +19,7 @@ fn read_loop(pin: &rppal::gpio::InputPin) {
     }
 }
 
-fn main() -> Result<(), rppal::gpio::Error> {
+fn main() -> Result<(), Box<dyn Error>> {
     println!("Hello world");
 
     let gpio = Gpio::new()?;
